@@ -9,7 +9,8 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def create
-
+    recipe = Recipe.create(recipe_params)
+    render json: recipe
   end
 
   def update
@@ -18,6 +19,11 @@ class Api::V1::RecipesController < ApplicationController
 
   def destroy
 
+  end
+
+  private
+  def recipe_params
+    params.require(:recipe).permit(:name, :description)
   end
 
 end
