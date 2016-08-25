@@ -14,16 +14,22 @@ class Api::V1::RecipesController < ApplicationController
   end
 
   def update
-
+    recipe = Recipe.find(params[:id])
+    recipe.update(recipe_params)
+    recipe.save
+    render json: recipe
   end
 
   def destroy
-
+    recipe = Recipe.find(params[:id])
+    recipe.destroy
+    render nothing: true
   end
 
   private
   def recipe_params
-    params.require(:recipe).permit(:name, :description)
+    # params.require(:data).permit(:name, :description, :ingredients)
+    ActiveModelSerializers::Deserialization.jsonapi_parse(params, only: [:name, :description, :ingredients])
   end
 
 end
